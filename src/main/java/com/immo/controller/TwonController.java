@@ -25,10 +25,9 @@ public class TwonController {
     private TwonService twonService;
 
     //api pour recuperer la liste
-    @RequestMapping(value = "/listTwon", method = RequestMethod.GET)
+    @GetMapping("/listTwon")
     public ResponseData getAllTwon(){
         List<Twon> listCom = twonService.getAll();
-        System.out.println("list town =========== "+listCom);
         return new ResponseData(true,listCom);
     }
 
@@ -41,9 +40,17 @@ public class TwonController {
 
     //api pour modifier
     @PutMapping("/updateTwon/{id}")
-    public ResponseData updateTwon(@Valid @RequestBody Twon twon){
-        Twon c =  twonService.update(twon);
-        return new ResponseData(true, c);
+    public ResponseData updateTwon(@Valid @RequestBody Twon twon, @PathVariable int id){
+        ResponseData json =null;
+        try{
+            twon.setId(id);
+            Twon c =  twonService.update(twon);
+            json =new ResponseData(true, c);
+        }catch (Exception ex){
+            System.out.println("erreur de modif_____________"+ex.getMessage()+" erreur2 "+ex.getStackTrace());
+            json = new ResponseData(false,"une valeur a &eacute;t&eacute; dupliqu&eacute;e ou erron&eacute;e",ex.getCause());
+        }
+        return json;
     }
 
     //api pour recuperer un element par id

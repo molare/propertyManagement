@@ -1,8 +1,5 @@
 package com.immo.security;
-
-import com.immo.entities.User;
-import com.immo.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.immo.security.services.UserDetailsImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -19,16 +16,15 @@ public class AuditingConfig {
 
     @Bean
     public AuditorAware<Integer> auditorProvider() {
-        return new SpringSecurityAuditAwareImpl();
+        return new AuditorAwareImpl();
     }
 }
 
-class SpringSecurityAuditAwareImpl implements AuditorAware<Integer> {
-    @Autowired
-    private UserRepository userRepository;
+class AuditorAwareImpl implements AuditorAware<Integer> {
     @Override
     public Optional<Integer> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null ||
                 !authentication.isAuthenticated() ||
@@ -36,9 +32,8 @@ class SpringSecurityAuditAwareImpl implements AuditorAware<Integer> {
             return Optional.empty();
         }
 
-        //User userPrincipal = (User) authentication.getPrincipal();
-        String currentUserName =  authentication.getName();
-        Optional<User> user = userRepository.findByUsername(currentUserName);
-        return Optional.ofNullable(user.get().getId());
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
+        return Optional.ofNullable(userPrincipal.getId());
     }
 }
