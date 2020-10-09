@@ -63,7 +63,13 @@ public class Sector extends UserDateAudit {
         this.description = description;
     }
 
+    public City getCity() {
+        return city;
+    }
 
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     public String getAction() {
         return "<td>\n" +

@@ -38,8 +38,8 @@ public class TypePropertyOwnerController {
     //api pour modifier
     @PutMapping(value = "/updateTypePropertyOwner/{id}")
     public ResponseData updateTypePropertyOwner(@Valid @RequestBody TypePropertyOwner typePropertyOwner,@PathVariable int id){
-        TypePropertyOwner ci = typePropertyOwnerService.findById(id);
-        TypePropertyOwner c =  typePropertyOwnerService.add(ci);
+        typePropertyOwner.setId(id);
+        TypePropertyOwner c =  typePropertyOwnerService.add(typePropertyOwner);
         return new ResponseData(true, c);
     }
 
@@ -52,13 +52,13 @@ public class TypePropertyOwnerController {
 
     //api pour supprimer un element par id
     @DeleteMapping(value = "/deleteTypePropertyOwner/{id}")
-    public ResponseData deleteTypePropertyOwner(@PathVariable int typePropertyId){
+    public ResponseData deleteTypePropertyOwner(@PathVariable int id){
         ResponseData json=null;
         try {
-            typePropertyOwnerService.delete(typePropertyId);
+            typePropertyOwnerService.delete(id);
             json = new ResponseData(true, null);
         }catch (Exception ex){
-            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est liée ailleurs",ex.getCause());
+            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est utilisée ailleurs",ex.getCause());
         }
         return json;
 

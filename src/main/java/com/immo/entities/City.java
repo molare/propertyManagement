@@ -3,6 +3,7 @@ package com.immo.entities;
 import com.immo.entities.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 
 /**
@@ -65,6 +66,13 @@ public class City extends UserDateAudit {
         this.description = description;
     }
 
+    public Twon getTwon() {
+        return twon;
+    }
+
+    public void setTwon(Twon twon) {
+        this.twon = twon;
+    }
 
     public String getAction() {
         return "<td>\n" +
@@ -78,6 +86,14 @@ public class City extends UserDateAudit {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", twon=" + twon +
+                ", action='" + action + '\'' +
+                '}';
+    }
 }

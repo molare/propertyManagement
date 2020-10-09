@@ -40,14 +40,14 @@ public class CivilityController {
 
     //api pour modifier
     @PutMapping(value = "/updateCivility/{id}")
-    public ResponseData updateCivility(Locale locale,@ModelAttribute Civility civility,@PathVariable int id){
-        Civility ci = civilityService.findById(id);
-        Civility c =  civilityService.add(ci);
+    public ResponseData updateCivility(@Valid @RequestBody Civility civility,@PathVariable int id){
+       civility.setId(id);
+        Civility c = civilityService.add(civility);
         return new ResponseData(true, c);
     }
     //api pour recuperer un element par id
     @GetMapping(value = "/findCivility/{id}")
-    public ResponseData findCivility(@Valid @RequestBody Civility civility,@PathVariable int id){
+    public ResponseData findCivility(@PathVariable int id){
         Civility ci = civilityService.findById(id);
        return new ResponseData(true, ci);
     }
@@ -60,7 +60,7 @@ public class CivilityController {
             civilityService.delete(id);
             json = new ResponseData(true, null);
         }catch (Exception ex){
-            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est liée ailleurs",ex.getCause());
+            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est utilisée ailleurs",ex.getCause());
         }
         return json;
     }

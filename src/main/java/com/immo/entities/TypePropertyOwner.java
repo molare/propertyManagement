@@ -1,5 +1,7 @@
 package com.immo.entities;
 
+import com.immo.entities.audit.UserDateAudit;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "type_owner")
-public class TypePropertyOwner implements Serializable {
+public class TypePropertyOwner extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

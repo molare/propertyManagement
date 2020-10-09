@@ -55,7 +55,7 @@ public class TypePropertyController {
             typePropertyService.delete(id);
             json = new ResponseData(true, null);
         }catch (Exception ex){
-            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est liée ailleurs",ex.getCause());
+            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est utilisée ailleurs",ex.getCause());
         }
         return json;
     }

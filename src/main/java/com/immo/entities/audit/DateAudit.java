@@ -29,6 +29,7 @@ public abstract class DateAudit implements Serializable {
     private Instant updatedAt;
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy à HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy à HH:mm:ss", timezone = "UTC")
     public Instant getCreatedAt() {
         return createdAt;
     }

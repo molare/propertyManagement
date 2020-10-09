@@ -4,7 +4,6 @@ import com.immo.dataTableResponse.ResponseData;
 import com.immo.entities.City;
 import com.immo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -23,7 +22,6 @@ public class CityController {
     @RequestMapping(value = "/listCity", method = RequestMethod.GET)
     public ResponseData getAllCity() {
         List<City> listCom = cityService.getAll();
-
         return new ResponseData(true,listCom);
     }
 
@@ -34,15 +32,14 @@ public class CityController {
         try{
             City c =  cityService.add(city);
             json = new ResponseData(true,c);
-
         }catch (Exception ex){
             json = new ResponseData(false,"une valeur a &eacute;t&eacute; dupliqu&eacute;e ou erron&eacute;e",ex.getCause());
         }
         return  json;
     }
     //Api pour modifier une commune
-    @PutMapping(value = "/updateCity/{idCity}")
-       public ResponseData updateCity(@Valid @RequestBody City city,@PathVariable int idCity){
+    @PutMapping(value = "/updateCity/{id}")
+       public ResponseData updateCity(@Valid @RequestBody City city,@PathVariable int id){
         ResponseData json=null;
         try{
         City c =  cityService.update(city);
@@ -69,7 +66,7 @@ public class CityController {
             cityService.delete(id);
             json = new ResponseData(true, null);
         }catch (Exception ex){
-            json = new ResponseData(false,"Impossible de supprimer cette donn&eacute;e car elle est li&eacute;e ailleurs",ex.getCause());
+            json = new ResponseData(false,"Impossible de supprimer cette donnée car elle est utilisée ailleurs",ex.getCause());
         }
         return json;
     }
